@@ -10,7 +10,7 @@ This project demonstrates a practical Return-Oriented Programming (ROP) exploit 
 ### Compilation
 Run `make` or:
 ```
-gcc -marm -fno-stack-protector -z execstack -no-pie -g -o vuln vuln.c
+gcc -marm -fno-stack-protector -z execstack -no-pie -g -static -o vuln vuln.c
 ```
 
 ## Testing Overflow
