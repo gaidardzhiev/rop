@@ -10,7 +10,7 @@ This project demonstrates a practical Return-Oriented Programming (ROP) exploit 
 ### Compilation
 Run `make` or:
 ```
-gcc -marm -fno-stack-protector -z execstack -no-pie -o vuln vuln.c
+gcc -marm -fno-stack-protector -z execstack -no-pie -g -o vuln vuln.c
 ```
 
 ## Testing Overflow
@@ -24,7 +24,7 @@ head -c 200 < /dev/zero | tr '\0' 'X' | ./vuln
 ## Analysis with GDB
 ```
 gdb ./vuln
-(gdb) break vulnerable_function
+(gdb) break fvuln
 (gdb) run < <(head -c 200 < /dev/zero | tr '\0' 'X')
 (gdb) info frame
 (gdb) x/64x $sp

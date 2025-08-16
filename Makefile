@@ -1,6 +1,6 @@
 CC=gcc
 BIN=vuln
-CFLAGS=-marm -fno-stack-protector -z execstack -no-pie
+CFLAGS=-marm -fno-stack-protector -z execstack -no-pie -g
 
 all: $(BIN)
 
