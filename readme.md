@@ -203,6 +203,12 @@ Run the program under GDB and check if the saved LR or PC registers contain `0x4
 Use tools like `ropper` or `objdump` to find ROP gadgets, especially ones that pop registers and return control:
 
 ```
+objdump -d vuln | grep -E "pop.*r0.*pc"
+   21b60:       e8bd8011        pop     {r0, r4, pc}
+   21e84:       e8bd8011        pop     {r0, r4, pc}
+```
+
+```
 ropper --file vuln
 [INFO] Load gadgets for section: LOAD
 [LOAD] loading... 100%
