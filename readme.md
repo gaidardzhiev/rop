@@ -25,6 +25,7 @@ head -c 200 < /dev/zero | tr '\0' 'X' | ./vuln
 ```
 gdb ./vuln
 (gdb) break fvuln
+Breakpoint 1 at 0x104fc: file vuln.c, line 5
 (gdb) run < <(head -c 200 < /dev/zero | tr '\0' 'X')
 (gdb) info frame
 (gdb) x/64x $sp
