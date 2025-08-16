@@ -2,16 +2,16 @@
 #include <string.h>
 
 void fvuln(char *in) {
-	char buf[32];
-	strcpy(buf, in);
-	printf("you entered: %s\n", buf);
+	printf("INPUT LEN: %zu\n", strlen(in));
+	for (int i=0; i<strlen(in); i++) {
+		printf("%02x ", in[i]);
+	}
+	printf("\n");
 }
 
-int main(int z, char *x[]) {
-	if (z != 2) {
-		printf("usage: %s <input>\n", x[0]);
-		return 1;
-	}
-	fvuln(x[11]);
+int main() {
+	char in[256];
+	fgets(in, sizeof(in), stdin);
+	fvuln(in);
 	return 0;
 }

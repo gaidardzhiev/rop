@@ -5,7 +5,7 @@ CFLAGS=-marm -fno-stack-protector -z execstack -no-pie
 all: $(BIN)
 
 $(BIN): %: %.c
-	$(CC) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm $(BIN)
