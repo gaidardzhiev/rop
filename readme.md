@@ -203,12 +203,49 @@ Run the program under GDB and check if the saved LR or PC registers contain `0x4
 Use tools like `ropper` or `objdump` to find ROP gadgets, especially ones that pop registers and return control:
 
 ```
-ropper --file vuln --search "pop {r0, pc}"
-```
-or
+ropper --file vuln
+[INFO] Load gadgets for section: LOAD
+[LOAD] loading... 100%
+[INFO] Load gadgets for section: GNU_STACK
+[LOAD] loading... 100%
+[LOAD] removing double gadgets... 100%
 
-```
-arm-linux-gnueabi-objdump -d vuln | grep -E "pop.*pc|bx lr"
+Gadgets
+=======
+
+0x000105dc: andeq r0, r0, ip, lsr #32; push {r3, lr}; pop {r3, pc};
+0x00010368: andeq r0, r0, r6, lsl r6; andeq r2, r1, r4, lsr #32; andeq r0, r0, r6, lsl r7; push {r3, lr}; bl #0x42c; pop {r3, pc};
+0x00010370: andeq r0, r0, r6, lsl r7; push {r3, lr}; bl #0x42c; pop {r3, pc};
+0x000105d8: andeq r1, r0, ip, asr sl; andeq r0, r0, ip, lsr #32; push {r3, lr}; pop {r3, pc};
+0x0001036c: andeq r2, r1, r4, lsr #32; andeq r0, r0, r6, lsl r7; push {r3, lr}; bl #0x42c; pop {r3, pc};
+0x0001056c: bhi #0x528; mov r0, #0xa; bl #0x3d0; nop; sub sp, fp, #4; pop {fp, pc};
+0x00010574: bl #0x3d0; nop; sub sp, fp, #4; pop {fp, pc};
+0x00010378: bl #0x42c; pop {r3, pc};
+0x000104d8: bl #0x450; mov r3, #1; strb r3, [r4]; pop {r4, pc};
+0x000105c4: bl #0x4ec; mov r3, #0; mov r0, r3; sub sp, fp, #4; pop {fp, pc};
+0x00010478: bx r3;
+0x00010474: bxeq lr; bx r3;
+0x00010464: bxeq lr; movw r3, #0; movt r3, #0; cmp r3, #0; bxeq lr; bx r3;
+0x00010470: cmp r3, #0; bxeq lr; bx r3;
+0x000104d0: cmp r3, #0; popne {r4, pc}; bl #0x450; mov r3, #1; strb r3, [r4]; pop {r4, pc};
+0x00010570: mov r0, #0xa; bl #0x3d0; nop; sub sp, fp, #4; pop {fp, pc};
+0x000105c0: mov r0, r3; bl #0x4ec; mov r3, #0; mov r0, r3; sub sp, fp, #4; pop {fp, pc};
+0x000105cc: mov r0, r3; sub sp, fp, #4; pop {fp, pc};
+0x000105c8: mov r3, #0; mov r0, r3; sub sp, fp, #4; pop {fp, pc};
+0x000104dc: mov r3, #1; strb r3, [r4]; pop {r4, pc};
+0x0001046c: movt r3, #0; cmp r3, #0; bxeq lr; bx r3;
+0x00010468: movw r3, #0; movt r3, #0; cmp r3, #0; bxeq lr; bx r3;
+0x00010580: pop {fp, pc};
+0x0001037c: pop {r3, pc};
+0x000104e4: pop {r4, pc};
+0x000104d4: popne {r4, pc}; bl #0x450; mov r3, #1; strb r3, [r4]; pop {r4, pc};
+0x00010374: push {r3, lr}; bl #0x42c; pop {r3, pc};
+0x000105e0: push {r3, lr}; pop {r3, pc};
+0x000104e0: strb r3, [r4]; pop {r4, pc};
+0x0001057c: sub sp, fp, #4; pop {fp, pc};
+0x00010578: nop; sub sp, fp, #4; pop {fp, pc};
+
+31 gadgets found
 ```
 
 
