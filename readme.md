@@ -196,13 +196,18 @@ Run the program under GDB and check if the saved LR or PC registers contain `0x4
 
 ## Next Steps for ROP Exploit
 
+
+
 1. **Gadget Hunting:**
 
 Use tools like `ropper` or `objdump` to find ROP gadgets, especially ones that pop registers and return control:
 
 ```
 ropper --file vuln --search "pop {r0, pc}"
+```
+or
 
+```
 arm-linux-gnueabi-objdump -d vuln | grep -E "pop.*pc|bx lr"
 ```
 
