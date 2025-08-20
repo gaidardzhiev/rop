@@ -321,7 +321,6 @@ This approach is more complex but sometimes necessary when you cannot directly r
 
 ## Exploit Workflow Diagram
 
-An enhanced ASCII diagram outlining the ARM32 ROP exploit process:
 ```
 +--------------------------------------------------------------+
 |                      Vulnerable Program                      |
@@ -362,8 +361,6 @@ An enhanced ASCII diagram outlining the ARM32 ROP exploit process:
 |  - Spawns a shell or executes arbitrary command              |
 |  - Full control over ARM32 Linux environment                  |
 +--------------------------------------------------------------+
+```
 
 This flow shows the transition from crafting malicious input to hijacking control flow via return address overwrite, executing a carefully constructed ROP chain, and ultimately achieving arbitrary code execution to spawn a shell on ARM32 Linux.
-```
----
-
