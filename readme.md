@@ -318,3 +318,52 @@ This requires finding the right gadgets that can set registers and invoke the sy
 This approach is more complex but sometimes necessary when you cannot directly reuse libc's `system()` or find embedded shell strings. It emphasizes deeper ROP gadget hunting, memory manipulation, and syscall interface knowledge on ARM32 Linux.
 
 ---
+
+## Exploit Workflow Diagram
+
+An enhanced ASCII diagram outlining the ARM32 ROP exploit process:
+
++--------------------------------------------------------------+
+|                      Vulnerable Program                      |
+|--------------------------------------------------------------|
+|  - Fixed-size stack buffer                                   |
+|  - Reads input from stdin without bounds checking            |
+|  - Saves frame pointer (R11) and return address (LR) on stack|
++--------------------------------------------------------------+
+                             |
+                             | Input size > buffer capacity
+                             v
++--------------------------------------------------------------+
+|                   Stack Buffer Overflow                      |
+|--------------------------------------------------------------|
+|  - Overflow data overwrites saved R11 and LR (return address)|
+|  - Control of program flow by manipulating return address    |
++--------------------------------------------------------------+
+                             |
+                             | Overwrite LR with gadget chain address
+                             v
++--------------------------------------------------------------+
+|                         ROP Chain                            |
+|--------------------------------------------------------------|
+|  - Gadgets control CPU registers                              |
+|      · Load pointer to "/bin/sh" string into R0              |
+|      · Clear R1 (argv) and R2 (envp)                         |
+|      · Set R7 to syscall number 11 (execve)                  |
+|      · Invoke syscall via `svc 0` instruction                 |
+|                                                              |
+|  - Alternatively, call `system("/bin/sh")` if available       |
++--------------------------------------------------------------+
+                             |
+                             | Execution of final gadget
+                             v
++--------------------------------------------------------------+
+|                  Arbitrary Code Execution                     |
+|--------------------------------------------------------------|
+|  - Spawns a shell or executes arbitrary command              |
+|  - Full control over ARM32 Linux environment                  |
++--------------------------------------------------------------+
+
+This flow shows the transition from crafting malicious input to hijacking control flow via return address overwrite, executing a carefully constructed ROP chain, and ultimately achieving arbitrary code execution to spawn a shell on ARM32 Linux.
+
+---
+
