@@ -1,7 +1,7 @@
-# ARM32 ROP Exploit Project
+# ARM32 ROP Exploit PoC
 
 ## Overview
-This project demonstrates a practical Return-Oriented Programming (ROP) exploit on an ARM32 Linux environment using Termux on Android. The goal is to exploit a simple stack buffer overflow vulnerability in a custom C program to execute arbitrary code.
+This project demonstrates a practical Return Oriented Programming (ROP) exploit on an ARM32 Linux environment using Termux on Android. The goal is to exploit a simple stack buffer overflow vulnerability in a custom C program to execute arbitrary code.
 
 ## Vulnerable Program
 - A minimal C program (`vuln.c`) that reads input from `stdin` into a fixed size buffer without proper bounds checking, allowing for buffer overflow.
@@ -143,7 +143,7 @@ End of assembler dump.
 0xfffee710:     0x58    0x58    0x58    0x58    0x58    0x58    0x58    0x58
 ```
 
-### Detailed Understanding of Stack Frame Layout and Overflow Offset, Plus Next Steps for ROP Project
+### Stack Frame Layout and Overflow Offset
 
 #### Stack Frame Layout Analysis
 
@@ -195,8 +195,6 @@ cat prefix overwrite | ./vuln
 Run the program under GDB and check if the saved LR or PC registers contain `0x42424242` (ASCII 'BBBB' reflected in hex).
 
 ## Next Steps for ROP Exploit
-
-
 
 1. **Gadget Hunting:**
 
@@ -253,7 +251,6 @@ Gadgets
 
 31 gadgets found
 ```
-
 
 2. **Locate system() and "/bin/sh":**
 
@@ -344,22 +341,22 @@ This approach is more complex but sometimes necessary when you cannot directly r
 +--------------------------------------------------------------+
 |                         ROP Chain                            |
 |--------------------------------------------------------------|
-|  - Gadgets control CPU registers                              |
+|  - Gadgets control CPU registers                             |
 |      · Load pointer to "/bin/sh" string into R0              |
 |      · Clear R1 (argv) and R2 (envp)                         |
 |      · Set R7 to syscall number 11 (execve)                  |
-|      · Invoke syscall via `svc 0` instruction                 |
+|      · Invoke syscall via `svc 0` instruction                |
 |                                                              |
-|  - Alternatively, call `system("/bin/sh")` if available       |
+|  - Alternatively, call `system("/bin/sh")` if available      |
 +--------------------------------------------------------------+
                              |
                              | Execution of final gadget
                              v
 +--------------------------------------------------------------+
-|                  Arbitrary Code Execution                     |
+|                  Arbitrary Code Execution                    |
 |--------------------------------------------------------------|
 |  - Spawns a shell or executes arbitrary command              |
-|  - Full control over ARM32 Linux environment                  |
+|  - Full control over ARM32 Linux environment                 |
 +--------------------------------------------------------------+
 ```
 
