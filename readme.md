@@ -1,7 +1,7 @@
 # ARM32 ROP Exploit PoC
 
 ## Overview
-This project demonstrates a practical Return Oriented Programming (ROP) exploit on an ARM32 Linux environment using Termux on Android. The goal is to exploit a simple stack buffer overflow vulnerability in a custom C program to execute arbitrary code.
+This project demonstrates a Return Oriented Programming (ROP) exploit on an ARM32 Linux environment running in Proot using Termux on Android. The goal is to exploit a simple stack buffer overflow vulnerability in a custom C program to execute arbitrary code.
 
 ## Vulnerable Program
 - A minimal C program (`vuln.c`) that reads input from `stdin` into a fixed size buffer without proper bounds checking, allowing for buffer overflow.
@@ -30,21 +30,6 @@ Breakpoint 1 at 0x104fc: file vuln.c, line 5
 
 (gdb) run < <(head -c 200 < /dev/zero | tr '\0' 'X')
 Starting program: /home/src/1v4n/rop/vuln < <(head -c 200 < /dev/zero | tr '\0' 'X')
-proot warning: ptrace request 'PTRACE_???' not supported yet
-proot warning: ptrace request 'PTRACE_GETVFPREGS' not supported yet
-proot warning: ptrace request 'PTRACE_GET_THREAD_AREA' not supported yet
-warning: File "/usr/lib/libthread_db.so.1" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
-To enable execution of this file add
-        add-auto-load-safe-path /usr/lib/libthread_db.so.1
-line to your configuration file "/root/.config/gdb/gdbinit".
-To completely disable this security protection add
-        set auto-load safe-path /
-line to your configuration file "/root/.config/gdb/gdbinit".
-For more information about this security protection see the
-"Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:
-        info "(gdb)Auto-loading safe path"
-warning: Unable to find libthread_db matching inferior's thread library, thread debugging will not be available.
-
 Breakpoint 1, fvuln (in=0xfffee708 'X' <repeats 200 times>) at vuln.c:5
 5               printf("INPUT LEN: %zu\n", strlen(in));
 
